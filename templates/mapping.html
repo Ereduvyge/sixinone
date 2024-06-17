@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Определение столбцов</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .spinner {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Определите типы столбцов</h2>
+        <form id="columnsForm" action="" method="POST" onsubmit="showSpinner(event)">
+            <table class="table">
+                <thead>
+                    <tr>
+                        {% for column in columns %}
+                            <th>
+                                <select name="{{ column }}">
+                                    <option value="none">Не включать</option>
+                                    <option value="label">Лейбл</option>
+                                    <option value="numerical">Числовой</option>
+                                    <option value="categorical">Категориальный</option>
+                                </select>
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for column in columns %}
+                            <td>{{ column }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Начать обработку</button>
+        </form>
+
+        <div id="spinner" class="spinner mt-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p class="mt-3">Обучение моделей может занять некоторое время. Пожалуйста, не закрывайте страницу.</p>
+        </div>
+    </div>
+
+    <script>
+        function showSpinner(event) {
+            document.getElementById('columnsForm').style.display = 'none';
+            document.getElementById('spinner').style.display = 'flex';
+        }
+    </script>
+
+</body>
+</html>

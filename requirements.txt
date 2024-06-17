@@ -1,0 +1,10 @@
+requests
+joblib
+pandas
+numpy
+flask
+scikit-learn
+keras
+torch
+pytorch_tabnet
+xgboost

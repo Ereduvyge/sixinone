@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Обработка файла прошла успешно!</h2>
+        <h3>Ваш ключ: {{ key }}</h3>
+        <p>Используйте этот ключ чтобы отправлять API запросы. Пример:</p>
+        <pre>
+curl -X POST http://yourapi.com/predict -d "key={{ key }}" -d "data=your_data"
+----------------
+import requests
+import json
+url = "http://localhost:5000/predict"
+payload = json.dumps({
+  "key": "{{ key }}",
+  "data": [
+    {
+      ...
+    },
+    {
+      ...
+    }
+  ]
+})
+headers = {'Content-Type': 'application/json'}
+response = requests.request("POST", url, headers=headers, data=payload)
+print(response.text)
+
+        </pre>
+        <div class="d-flex flex-row">
+            <a href="/view/{{ key }}" class="btn btn-primary mr-2" role="button">Онлайн классификатор</a>
+            <a href="/" class="btn btn-primary" role="button">На главную</a>
+        </div>
+    </div>
+</body>
+</html>

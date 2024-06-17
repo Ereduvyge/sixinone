@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Главная</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Веб-сервис для классификации табличных данных</h1>
+        <h5 class="mt-5">Загрузите свой CSV файл, определите нужные столбцы и начните классифицировать Ваши данные по API либо же проверьте работоспособность на сайте</h5>
+        <a href="{{ url_for('upload_file') }}" class="btn btn-primary mt-3">Начать</a>
+        <h5 class="mt-5">Или если у Вас уже есть ключ:</h5>
+        <form action="" method="POST" class="form-inline mt-3">
+            <input type="text" id="key" name="key" required class="form-control input-lg mr-2"></input>
+            <button type="submit" class="btn btn-primary">Классификатор</button>
+        </form>
+    </div>
+</body>
+</html>

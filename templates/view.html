@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Классификатор</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Данные</h1>
+        <form id="classificationForm">
+            {% for feature in predictor.categorical_features %}
+            <div class="form-group">
+                <label for="{{ feature }}">{{ feature }}</label>
+                <input type="text" class="form-control" id="{{ feature }}" name="{{ feature }}" required>
+            </div>
+            {% endfor %}
+            {% for feature in predictor.numerical_features %}
+            <div class="form-group">
+                <label for="{{ feature }}">{{ feature }}</label>
+                <input type="number" step="any" class="form-control" id="{{ feature }}" name="{{ feature }}" required>
+            </div>
+            {% endfor %}
+            <input type="hidden" name="key" value="{{ key }}">
+            <div class="d-flex flex-row">
+                <button type="submit" class="btn btn-primary mr-3">Отправить</button>
+                <a href="/" class="btn btn-primary" role="button">На главную</a>
+            </div>
+        </form>
+        <div id="responseContainer" class="mt-4"></div>
+    </div>
+
+    <script>
+        document.getElementById('classificationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const formObject = {};
+            formData.forEach((value, key) => formObject[key] = value);
+            const data = {
+                key: formObject.key,
+                data: [formObject]
+            };
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                const responseContainer = document.getElementById('responseContainer');
+                if (result.success) {
+                    responseContainer.innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Успех</h4>
+                            <p class="mb-0">Лейбл: ${result.labels.join(', ')}</p>
+                            <hr>
+                            <p>${result.via}</p>
+                        </div>
+                    `;
+                } else {
+                    responseContainer.innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h4 class="alert-heading">Ошибка</h4>
+                            <p>${result.error}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                document.getElementById('responseContainer').innerHTML = `
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Ошибка</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>

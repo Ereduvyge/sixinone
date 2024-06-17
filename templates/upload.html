@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Загрузка файла</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Загрузите Ваш CSV файл в форму ниже</h2>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info" role="alert">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="dataset">CSV файл</label>
+                <input type="file" class="form-control-file" id="dataset" name="dataset" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Загрузить</button>
+        </form>
+    </div>
+</body>
+</html>
